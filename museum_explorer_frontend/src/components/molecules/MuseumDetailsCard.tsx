@@ -2,28 +2,29 @@ import { useEffect, useState } from "react";
 import type { Museum } from "../../models/Museum";
 import Card from "../atoms/Card";
 import { useParams } from "react-router";
+import { useFetch } from "../../hooks/useFetch";
 
 export default function MuseumDetailsCard() {
-  const [museumInfos, setMuseumInfos] = useState<Museum>();
-  const {id: museumId} = useParams();
+  const { id: museumId } = useParams();
 
-  useEffect(() => {
-    fetch(`https://museumapi.hackeuse.fr/museums/${museumId}`)
-      .then((resp) => resp.json())
-      .then((data) => setMuseumInfos(data));
-  }, []);
+  const { data, error, loading } = useFetch<Museum>(
+    `https://museumapi.hackeuse.fr/museums/${museumId}`,
+  );
 
   return (
-    museumInfos && (
+    (loading && <p>Loading museum infos...</p>) ||
+    (error &&
+      (console.error(error), (<span>{"Something wrong happened"}</span>))) ||
+    (data && (
       <Card
-        title={museumInfos.name}
+        title={data.name}
         content={
           <>
-            <p>{museumInfos.description}</p>
-            <span>{museumInfos.city}</span>
-            <p>{museumInfos.address}</p>
-            {museumInfos.exhibitions &&
-              museumInfos.exhibitions.map((exhi) => (
+            <p>{data.description}</p>
+            <span>{data.city}</span>
+            <p>{data.address}</p>
+            {data.exhibitions &&
+              data.exhibitions.map((exhi) => (
                 <article key={exhi.id}>
                   <h3>{exhi.title}</h3>
                   <p>{exhi.shortDescription}</p>
@@ -33,6 +34,6 @@ export default function MuseumDetailsCard() {
           </>
         }
       />
-    )
+    ))
   );
 }
