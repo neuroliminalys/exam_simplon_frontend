@@ -1,3 +1,5 @@
+import type { Exhibition } from "./Exhibition";
+
 export interface Museum {
   id: string;
   name: string;
@@ -9,4 +11,5 @@ export interface Museum {
     latitude: string;
     longitude: string;
   };
+  exhibitions?: Exhibition[];
 }
