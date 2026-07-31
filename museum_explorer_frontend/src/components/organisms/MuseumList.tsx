@@ -8,18 +8,21 @@ export default function MuseumList() {
     "https://museumapi.hackeuse.fr/museums",
   );
 
+  if (error) {
+    console.error(error);
+    return <span>{"Something wrong happened"}</span>;
+  } else if (loading) {
+    <p>Loading museums...</p>;
+  } else if(data) {
     return (
-      (error && (console.error(error), <span>{"Something wrong happened"}</span>)) ||
-      (loading && <p>Loading museums...</p>) ||
-      (data && (
-        <ul>
-          {data.map((m) => (
-            <li key={m.id}>
-              <MuseumCard name={m.name} town={m.city} image={m.image} />
-              <Link to={`/details/${m.id}`}>More about...</Link>
-            </li>
-          ))}
-        </ul>
-      ))
+      <ul>
+        {data.map((m) => (
+          <li key={m.id}>
+            <MuseumCard name={m.name} town={m.city} image={m.image} />
+            <Link to={`/details/${m.id}`}>More about...</Link>
+          </li>
+        ))}
+      </ul>
     );
   }
+}
