@@ -1,0 +1,35 @@
+@startuml
+left to right direction
+:Visiteurs (non connectés): as VIS
+:Utilisateurs connectés: as USER
+:Administrateurs: as ADMIN
+
+rectangle PUBLIC {
+(Voir tous les musées référencés) as SHOW_ALL
+(Rechercher un musée par son nom) as SEARCH_BY_NAME
+(Rechercher un musée par sa ville) as SEARCH_BY_TOWN
+(Rechercher un musée par son domaine) as SEARCH_BY_DOMAIN
+(Accéder à la fiche de présentation du musée) as DETAILS_MUSEUM
+(Accéder au guide détaillé) as SEE_DETAILED_GUIDE
+
+(Enregistrer le musée dans sa liste personnelle) as FAVORITE_MUSEUM
+}
+
+rectangle "ADMIN PANEL" {
+(Enregistrer un nouveau musée) as CREATE_MUSEUM
+(Modifier les informations d'un musée) as MODIFY_MUSEUM
+}
+USER -|> VIS
+
+VIS ..> SHOW_ALL
+VIS ..> SEARCH_BY_NAME
+VIS ..> SEARCH_BY_TOWN
+VIS ..> SEARCH_BY_DOMAIN
+VIS ..> DETAILS_MUSEUM
+VIS ..> SEE_DETAILED_GUIDE
+
+USER ..> FAVORITE_MUSEUM
+
+ADMIN ..> CREATE_MUSEUM
+ADMIN ..> MODIFY_MUSEUM
+@enduml
