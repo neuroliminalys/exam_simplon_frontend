@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import type { Museum } from "../../models/Museum";
 import Card from "../atoms/Card";
+import { useParams } from "react-router";
 
 export default function MuseumDetailsCard() {
   const [museumInfos, setMuseumInfos] = useState<Museum>();
-  const museumId = undefined ; //to implement
+  const {id: museumId} = useParams();
 
   useEffect(() => {
     fetch(`https://museumapi.hackeuse.fr/museums/${museumId}`)
