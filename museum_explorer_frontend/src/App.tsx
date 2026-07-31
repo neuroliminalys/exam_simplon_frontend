@@ -1,12 +1,17 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import "./App.css";
 import MuseumPage from "./views/MuseumPage";
+import MuseumDetailsPage from "./views/MuseumDetailsPage";
 
 function App() {
   let router = createBrowserRouter([
     {
       path: "/",
       element: <MuseumPage />,
+    },
+    {
+      path: "/details/:id",
+      element: <MuseumDetailsPage />,
     },
     {
       path: "*",
