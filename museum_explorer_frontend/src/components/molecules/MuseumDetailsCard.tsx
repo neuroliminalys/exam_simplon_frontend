@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import type { Museum } from "../../models/Museum";
 import Card from "../atoms/Card";
 import { useParams } from "react-router";
@@ -10,12 +9,13 @@ export default function MuseumDetailsCard() {
   const { data, error, loading } = useFetch<Museum>(
     `https://museumapi.hackeuse.fr/museums/${museumId}`,
   );
-
-  return (
-    (loading && <p>Loading museum infos...</p>) ||
-    (error &&
-      (console.error(error), (<span>{"Something wrong happened"}</span>))) ||
-    (data && (
+  if (loading) {
+    return <p>Loading museum infos...</p>;
+  } else if (error) {
+    console.error(error);
+    return <span>{"Something wrong happened"}</span>;
+  } else if (data) {
+    return (
       <Card
         title={data.name}
         content={
@@ -28,12 +28,14 @@ export default function MuseumDetailsCard() {
                 <article key={exhi.id}>
                   <h3>{exhi.title}</h3>
                   <p>{exhi.shortDescription}</p>
-                  <span>{exhi.startDate + " to " + exhi.endDate}</span>
+                  {exhi.startDate && exhi.endDate && (
+                    <span>{exhi.startDate + " to " + exhi.endDate}</span>
+                  )}
                 </article>
               ))}
           </>
         }
       />
-    ))
-  );
+    );
+  }
 }
